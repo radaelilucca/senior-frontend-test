@@ -14,7 +14,6 @@
 				class="w-full h-10 px-3 rounded-[0.25rem] bg-transparent border-solid border border-primary-darkBlue"
 				:class="{ 'border-accent-red': error }"
 				@input="handleInput"
-				@blur="handleValidation"
 			/>
 			<ErrorIcon v-if="!!error" class="absolute right-3" />
 		</div>
@@ -29,6 +28,10 @@ import ErrorIcon from "~/assets/svg/icons/error.svg";
 
 export default {
 	name: "Input",
+
+	components: {
+		ErrorIcon,
+	},
 
 	props: {
 		type: { required: true },
@@ -61,10 +64,6 @@ export default {
 		handleValidation() {
 			this.$emit("validate");
 		},
-	},
-
-	components: {
-		ErrorIcon,
 	},
 };
 </script>
