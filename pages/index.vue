@@ -143,6 +143,7 @@ export default {
 			newOffices[officeIndex] = updatedData;
 			this.offices = newOffices;
 			this.openCardIndex = -1;
+			this.handleShowConfirmationPopup("the location has been updated.");
 		},
 	},
 };
