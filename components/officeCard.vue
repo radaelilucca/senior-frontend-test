@@ -1,54 +1,81 @@
 <template>
 	<div>
-		<button
-			@focus="handleFocus"
-			@mouseenter="handleFocus"
-			@mouseleave="handleBlur"
-			@blur="handleBlur"
-			class="card-button flex items-center justify-between w-full rounded-lg p-6 list-none rounded-t-lg"
-			v-bind:class="{
-				'card-button-open': isOpen,
-				'card-button-focused': isFocused,
+		<OfficeForm
+			v-if="isEditing"
+			@onCancel="handleFinishEditing"
+			@onSubmit="handleEditCard"
+			:initialData="{
+				title: office.title,
+				address: office.address,
+				contactName: office.contact.name,
+				contactPosition: office.contact.position,
+				contactEmail: office.contact.email,
+				contactPhone: office.contact.phone,
 			}"
-			@click="handleClick"
+		/>
+
+		<div
+			id="office-card"
+			:class="{
+				hidden: isEditing,
+			}"
 		>
-			<div class="flex flex-col items-start">
-				<strong class="card-title text-2xl leading-8 w-fit">
-					{{ office.title }}
-				</strong>
-				<span class="card-address text-primary-gray leading-6">{{
-					office.address
-				}}</span>
-			</div>
-			<ArrowIcon />
-		</button>
-
-		<div class="card-panel overflow-hidden max-h-0" ref="panel">
-			<div class="bg-background-white rounded-b-lg py-6 px-12">
-				<div class="flex flex-col gap-2 text-primary-darkBlue">
-					<strong class="text-xl">{{ office.contact.name }}</strong>
-					<span>{{ office.contact.position }}</span>
-					<a
-						:href="`mailto:${office.contact.email}`"
-						class="text-accent-blue"
-						>{{ office.contact.email }}</a
-					>
-					<span>{{ office.contact.phone }}</span>
+			<button
+				@focus="handleFocus"
+				@mouseenter="handleFocus"
+				@mouseleave="handleBlur"
+				@blur="handleBlur"
+				class="card-button flex items-center justify-between w-full rounded-lg p-6 list-none rounded-t-lg"
+				v-bind:class="{
+					'card-button-open': isOpen,
+					'card-button-focused': isFocused,
+				}"
+				@click="handleClick"
+			>
+				<div class="flex flex-col items-start">
+					<strong class="card-title text-2xl leading-8 w-fit">
+						{{ office.title }}
+					</strong>
+					<span class="card-address text-primary-gray leading-6">{{
+						office.address
+					}}</span>
 				</div>
+				<ArrowIcon />
+			</button>
 
-				<hr class="mt-4 mb-5" />
-				<div class="flex items-center justify-between">
-					<button
-						class="flex items-center gap-3 text-xs text-primary-gray"
-					>
-						<EditIcon /> EDIT
-					</button>
-					<button
-						@click="handleDelete"
-						class="flex items-center gap-3 text-xs text-accent-red"
-					>
-						<DeleteIcon />DELETE
-					</button>
+			<div class="card-panel overflow-hidden max-h-0" ref="panel">
+				<div
+					id="card-content"
+					class="bg-background-white rounded-b-lg py-6 px-12"
+				>
+					<div class="flex flex-col gap-2 text-primary-darkBlue">
+						<strong class="text-xl">{{
+							office.contact.name
+						}}</strong>
+						<span>{{ office.contact.position }}</span>
+						<a
+							:href="`mailto:${office.contact.email}`"
+							class="text-accent-blue"
+							>{{ office.contact.email }}</a
+						>
+						<span>{{ office.contact.phone }}</span>
+					</div>
+
+					<hr class="mt-4 mb-5" />
+					<div class="flex items-center justify-between">
+						<button
+							@click="handleStartEditing"
+							class="flex items-center gap-3 text-xs text-primary-gray"
+						>
+							<EditIcon /> EDIT
+						</button>
+						<button
+							@click="handleDelete"
+							class="flex items-center gap-3 text-xs text-accent-red"
+						>
+							<DeleteIcon />DELETE
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -59,6 +86,8 @@
 import ArrowIcon from "~/assets/svg/icons/arrow.svg";
 import EditIcon from "~/assets/svg/icons/edit.svg";
 import DeleteIcon from "~/assets/svg/icons/delete.svg";
+
+import OfficeForm from "~/components/officeForm";
 
 export default {
 	props: {
@@ -82,6 +111,7 @@ export default {
 	data() {
 		return {
 			isFocused: false,
+			isEditing: false,
 		};
 	},
 
@@ -89,11 +119,12 @@ export default {
 		ArrowIcon,
 		EditIcon,
 		DeleteIcon,
+		OfficeForm,
 	},
 
 	watch: {
 		isOpen: {
-			handler() {
+			handler(value) {
 				this.handleTogglePanelOpen();
 			},
 		},
@@ -120,6 +151,19 @@ export default {
 			} else {
 				panel.style.maxHeight = panel.scrollHeight + "px";
 			}
+		},
+
+		handleStartEditing() {
+			this.isEditing = true;
+		},
+
+		handleFinishEditing() {
+			this.isEditing = false;
+		},
+
+		handleEditCard(cardData) {
+			this.handleFinishEditing();
+			this.$emit("onEdit", cardData);
 		},
 
 		handleDelete() {
