@@ -111,7 +111,6 @@ export default {
 	name: "OfficeForm",
 	components: { Input, CloseIcon },
 	props: {
-		mode: String,
 		initialData: {
 			title: String,
 			address: String,
@@ -171,7 +170,27 @@ export default {
 			const isValid = this.validateForm();
 
 			if (isValid) {
-				this.$emit("onSubmit", this.formData);
+				const {
+					title,
+					address,
+					contactName: name,
+					contactPosition: position,
+					contactEmail: email,
+					contactPhone: phone,
+				} = this.formData;
+
+				const parsedOffice = {
+					title,
+					address,
+					contact: {
+						name,
+						position,
+						email,
+						phone,
+					},
+				};
+
+				this.$emit("onSubmit", parsedOffice);
 			} else {
 				for (const field in this.formData) {
 					this.validateField(field);
