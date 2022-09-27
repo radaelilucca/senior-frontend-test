@@ -70,6 +70,7 @@
 				v-model="formData.contactPhone"
 				:error="errors.contactPhone"
 				@validate="validateField('contactPhone')"
+				mask="(###) ###-####"
 			/>
 		</section>
 
@@ -104,7 +105,7 @@ const validationSchema = yup.object().shape({
 	contactPhone: yup
 		.string()
 		.required(emptyMessage)
-		.matches(/^\d{10}$/, "Invalid phone"),
+		.matches(/(\(\d{3}\))\s\d{3}-\d{4}/, "Invalid phone"),
 });
 
 export default {
