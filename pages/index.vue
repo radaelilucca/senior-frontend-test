@@ -13,7 +13,7 @@
 			<OfficeForm
 				v-if="isAddingNewOffice"
 				@onCancel="handleCancelAdding"
-				@onSubmit="handleAddCard"
+				@onSubmit="handleAddOffice"
 			/>
 			<button
 				v-if="!isAddingNewOffice"
@@ -29,7 +29,8 @@
 						v-bind:office="office"
 						v-bind:isOpen="openCardIndex === index"
 						@onOpenStateChangeRequest="handleToggleCard(index)"
-						@onDeleteRequest="handleRemoveCard(index)"
+						@onDeleteRequest="handleRemoveOffice(index)"
+						@onEdit="(data) => handleUpdateOffice(index, data)"
 					/>
 				</li>
 			</ul>
@@ -84,28 +85,8 @@ export default {
 			else this.openCardIndex = -1;
 		},
 
-		handleAddCard(newOffice) {
-			const {
-				title,
-				address,
-				contactName: name,
-				contactPosition: position,
-				contactEmail: email,
-				contactPhone: phone,
-			} = newOffice;
-
-			const parsedOffice = {
-				title,
-				address,
-				contact: {
-					name,
-					position,
-					email,
-					phone,
-				},
-			};
-
-			this.offices.push(parsedOffice);
+		handleAddOffice(newOffice) {
+			this.offices.push(newOffice);
 			this.isAddingNewOffice = false;
 
 			this.handleShowConfirmationPopup("the location has been saved.");
@@ -119,7 +100,7 @@ export default {
 			this.isAddingNewOffice = false;
 		},
 
-		handleRemoveCard(cardIndex) {
+		handleRemoveOffice(cardIndex) {
 			const newOffices = this.offices;
 			newOffices.splice(cardIndex, 1);
 			this.offices.newOffices;
@@ -155,6 +136,13 @@ export default {
 		handleCloseConfirmationPopup() {
 			this.confirmationPopupOpen = false;
 			clearTimeout(this.confirmationCloseTimeout);
+		},
+
+		handleUpdateOffice(officeIndex, updatedData) {
+			const newOffices = [...this.offices];
+			newOffices[officeIndex] = updatedData;
+			this.offices = newOffices;
+			this.openCardIndex = -1;
 		},
 	},
 };
