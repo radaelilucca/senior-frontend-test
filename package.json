@@ -13,6 +13,7 @@
   "dependencies": {
     "@nuxtjs/tailwindcss": "^3.4.2",
     "nuxt": "^2.15.3",
+    "v-mask": "^2.3.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {

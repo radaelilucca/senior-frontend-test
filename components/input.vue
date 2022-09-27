@@ -14,6 +14,7 @@
 				class="w-full h-10 px-3 rounded-[0.25rem] bg-transparent border-solid border border-primary-darkBlue focus:outline-none focus:border-accent-blue"
 				:class="{ 'border-accent-red': error }"
 				@input="handleInput"
+				v-mask="mask"
 			/>
 			<ErrorIcon v-if="!!error" class="absolute right-3" />
 		</div>
@@ -25,6 +26,10 @@
 
 <script>
 import ErrorIcon from "~/assets/svg/icons/error.svg";
+import Vue from "vue";
+
+import { VueMaskDirective } from "v-mask";
+Vue.directive("mask", VueMaskDirective);
 
 export default {
 	name: "Input",
@@ -46,6 +51,7 @@ export default {
 			},
 		},
 		placeholder: String,
+		mask: String,
 	},
 
 	data() {
