@@ -11,7 +11,7 @@
 				:type="type"
 				:value="value"
 				:placeholder="placeholder"
-				class="w-full h-10 px-3 rounded-[0.25rem] bg-transparent border-solid border border-primary-darkBlue"
+				class="w-full h-10 px-3 rounded-[0.25rem] bg-transparent border-solid border border-primary-darkBlue focus:outline-none focus:border-accent-blue"
 				:class="{ 'border-accent-red': error }"
 				@input="handleInput"
 			/>
