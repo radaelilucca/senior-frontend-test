@@ -1,0 +1,42 @@
+[
+  {
+    "title": "Headquarters",
+    "address": "3745 W. Dallas St.",
+    "contact": {
+      "name": "Hellena Jhon",
+      "position": "Software Tester",
+      "email": "hellena@tests.com",
+      "phone": "8085550111"
+    }
+  },
+  {
+    "title": "Design QG",
+    "address": "102 North. Texas St.",
+    "contact": {
+      "name": "Spongebob",
+      "position": "Fry cook",
+      "email": "spongebob@squarepants.br",
+      "phone": "388192646"
+    }
+  },
+  {
+    "title": "Justice League Tower",
+    "address": "Washington, D.C. Fake St.",
+    "contact": {
+      "name": "Clark Kent",
+      "position": "Superhero",
+      "email": "clark@sheroes.spc",
+      "phone": "139277723"
+    }
+  },
+  {
+    "title": "Pernalonga's House",
+    "address": " Los Angeles, Califórnia",
+    "contact": {
+      "name": "Patolino",
+      "position": "Loney tunes actor",
+      "email": "patolino@tunes.com",
+      "phone": "99999999999"
+    }
+  }
+]
